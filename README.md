@@ -1,6 +1,6 @@
 # DiscoSh
 
-DiscoSh is a simple command line tool that can generate a nearly undetectable remote access trojan that connects to a Discord bot. DiscoSh generates a batch file stager which can be optionally obfuscated. The generated file can be used on its own and does not require additional code to be wrapped over it.
+DiscoSh is a simple command line tool that can generate a nearly undetectable remote access trojan that connects to a Discord bot. DiscoSh generates a batch file stager which can be optionally obfuscated with [BatchGuard](https://github.com/cchash/BatchGuard) modules. The generated file can be used on its own and does not require additional code to be wrapped over it.
 
 ![image](https://media.discordapp.net/attachments/955850893113298957/957939935359422504/unknown.png)
 
