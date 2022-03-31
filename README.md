@@ -32,6 +32,8 @@ ipinfo {machine_name} : Get IP address and geolocation of specified machine.
 startkeylogger {machine_name} : Start keylogger on specified machine.
 stopkeylogger {machine_name} : Stop keylogger on specified machine.
 getkeylog {machine_name} : Get logged keys on specified machine.
+startddos {website_url} : Make all infected machines send GET requests to specified URL.
+stopddos : Make all infected machines stop sending GET requests.
 uninfect {machine_name} : Uninfect specified machine.
 ```
 
