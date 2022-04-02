@@ -23,7 +23,7 @@
                 else if (args[i] == "-obf" || args[i] == "--obfuscate") _obf = true;
                 else if (args[i] == "-d" || args[i] == "--deleteself") _delself = true;
                 else if (args[i] == "-gl" || args[i] == "--geolock") _geolock = args[i + 1];
-                else if (args[i] == "-po" || args[i] == "--payload") _ponly = true;
+                else if (args[i] == "-po" || args[i] == "--payloadonly") _ponly = true;
             }
 
             if (_output == string.Empty)
