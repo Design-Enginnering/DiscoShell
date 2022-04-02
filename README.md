@@ -4,6 +4,8 @@ DiscoSh is a simple command line tool that can generate a nearly undetectable re
 
 ![image](https://media.discordapp.net/attachments/955850893113298957/957939935359422504/unknown.png)
 
+If you have any issues using this tool, feel free to DM me on Discord (chash#0466) or [create a GitHub issue](https://github.com/cchash/DiscoShell/issues/new).
+
 ## Detection status
 Virustotal result of generated file:
 ![image](https://media.discordapp.net/attachments/955850893113298957/957941390082474034/unknown.png)
