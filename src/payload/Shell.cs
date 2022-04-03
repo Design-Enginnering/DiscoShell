@@ -30,10 +30,11 @@ namespace payload
                         string text = string.Join("\n", log);
                         List<string> lines = new List<string>(text.Split('\n'));
                         while (lines.Count > 20) lines.RemoveAt(0);
-                        shmessage.ModifyAsync(delegate (MessageProperties m)
+                        string content = string.Join("\n", lines);
+                        if (shmessage.Content != content)
                         {
-                            m.Content = "Reply to this message to input commands.\n```" + string.Join("\n", lines) + "```";
-                        }, null).GetAwaiter().GetResult();
+                            shmessage.ModifyAsync((m) => { m.Content = "Reply to this message to input commands.\n```" + string.Join("\n", lines) + "```"; }).GetAwaiter().GetResult();
+                        }
                     }
                     Thread.Sleep(500);
                 }

