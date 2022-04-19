@@ -1,6 +1,6 @@
 # DiscoShell
 
-DiscoShell (a.k.a. DiscoSh) is a remote access trojan that is controlled via a Discord bot, allowing the creation of a Discord-based botnet. 
+DiscoShell (a.k.a. DiscoSh) is a minimal remote access trojan that is controlled via a Discord bot, allowing the creation of a Discord-based botnet.
 
 The builder generates a batch file stager which can be optionally obfuscated with [BatchGuard](https://github.com/cchash/BatchGuard) modules. The generated file can be used on its own and does not require additional code to be wrapped over it. You can find the compiled builder [here](https://github.com/cchash/DiscoShell/releases).
 
