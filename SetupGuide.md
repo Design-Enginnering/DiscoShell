@@ -22,3 +22,8 @@ Recommended configuration:
 discosh -o output.bat -t {copied token from step 6} -p ! -obf -d
 
 9. The outputted batch file is the generated RAT.
+
+Invite your bot to your desired server via OAuth2 > URL Generator.
+![image](https://media.discordapp.net/attachments/959762900443070485/966604344910823454/unknown.png)
+
+Copy and paste the generated URL into your browser.
