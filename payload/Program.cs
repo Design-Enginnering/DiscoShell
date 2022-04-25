@@ -117,7 +117,7 @@ namespace payload
                     }
                 }
             }
-            if (!message.Content.StartsWith(prefix)) return;
+            if (prefix != string.Empty && !message.Content.StartsWith(prefix)) return;
 
             List<string> args = new List<string>(message.Content.Split(' '));
             string cmd = args[0].Remove(0, prefix.Length);
