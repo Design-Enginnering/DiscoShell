@@ -71,7 +71,7 @@ namespace discoshell
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Usage:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write($" {Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName)} [-h|--help] [-o|--output] [-t|--token] [-p|--prefix] [-obf|--obfuscate] [-d|--deleteself] [-gl|--geolock] [-po|payloadonly]\n\n");
+            Console.Write($" {Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName)} [-h|--help] [-o|--output] [-t|--token] [-p|--prefix] [-obf|--obfuscate] [-d|--deleteself] [-gl|--geolock] [-po|--payloadonly]\n\n");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Arguments:");
