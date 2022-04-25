@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace discosh.Protections
+namespace discoshell.Protections
 {
     public class UTF16BOM
     {

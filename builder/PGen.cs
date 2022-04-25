@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using discosh.Protections;
+using discoshell.Protections;
 
-namespace discosh
+namespace discoshell
 {
     public class PGen
     {

@@ -1,4 +1,4 @@
-﻿namespace discosh.Protections
+﻿namespace discoshell.Protections
 {
     public class AntiDeobf
     {
