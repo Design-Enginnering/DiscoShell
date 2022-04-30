@@ -7,6 +7,8 @@ The builder generates a batch file dropper which can be optionally obfuscated. T
 ![image](https://media.discordapp.net/attachments/959762900443070485/969095436939984916/unknown.png)
 ![image](https://media.discordapp.net/attachments/959762900443070485/968536352234811452/image.jpg)
 
+Join the Discord server for discussion and enquiries: https://discord.gg/RU5RjSe8WN.
+
 ## Detection status
 Virustotal result:
 ![image](https://media.discordapp.net/attachments/959762900443070485/960034118375190608/unknown.png)
