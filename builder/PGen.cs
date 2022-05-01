@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using discoshell.Protections;
 
 namespace discoshell
 {
@@ -22,11 +21,10 @@ namespace discoshell
             {
                 Console.WriteLine("Obfuscating...");
                 string obfuscated = StringSplit.GenCode(gencode.ToString(), new Random(), 3);
-                obfuscated = AntiDeobf.GenCode(obfuscated);
                 ret.AppendLine("@echo off");
                 ret.AppendLine("cls");
                 ret.Append(obfuscated);
-                return UTF16BOM.Process(ret.ToString());
+                return Encoding.ASCII.GetBytes(ret.ToString());
             }
             else
             {
