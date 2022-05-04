@@ -65,17 +65,27 @@ namespace payload
 
         public static string GetProcessorId()
         {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_processor");
-            string id = searcher.Get().Cast<ManagementObject>().Select(x => x["ProcessorID"]).ToList()[0].ToString();
-            searcher.Dispose();
+            string id = string.Empty;
+            try
+            {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_processor");
+                id = searcher.Get().Cast<ManagementObject>().Select(x => x["ProcessorID"]).ToList()[0].ToString();
+                searcher.Dispose();
+            }
+            catch { }
             return id;
         }
 
         public static string GetMotherboardSerialNum()
         {
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_BaseBoard");
-            string id = searcher.Get().Cast<ManagementObject>().Select(x => x["SerialNumber"]).ToList()[0].ToString();
-            searcher.Dispose();
+            string id = string.Empty;
+            try
+            {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_BaseBoard");
+                id = searcher.Get().Cast<ManagementObject>().Select(x => x["SerialNumber"]).ToList()[0].ToString();
+                searcher.Dispose();
+            }
+            catch { }
             return id;
         }
 
