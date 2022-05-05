@@ -5,7 +5,6 @@ DiscoShell (a.k.a. DiscoSh) is a minimal remote access trojan that is controlled
 The builder generates a batch file dropper which can be optionally obfuscated. The generated file can be used on its own and does not require additional code to be wrapped over it. You can find the compiled builder [here](https://github.com/cchash/DiscoShell/releases).
 
 ![image](https://media.discordapp.net/attachments/959762900443070485/969095436939984916/unknown.png)
-![image](https://media.discordapp.net/attachments/959762900443070485/968536352234811452/image.jpg)
 
 Join the Discord server for discussion and enquiries: https://discord.gg/RU5RjSe8WN.
 
