@@ -11,8 +11,8 @@ Join the Discord server for discussion and enquiries: https://discord.gg/RU5RjSe
 
 ## Detection status
 Virustotal result:
-![image](https://media.discordapp.net/attachments/959762900443070485/960034118375190608/unknown.png)
-[Link](https://www.virustotal.com/gui/file/541a70073404f35f6c0500d68de377d01dea3571f241723bb5975720c39dead8)
+![image](https://media.discordapp.net/attachments/961905736139554876/972065831083200512/unknown.png)
+[Link](https://www.virustotal.com/gui/file/de8d1c39d6289ab2c345f82f75c4c1c7dcb5f2e202d5a8100ac97bb921559035/detection)
 
 Also tested on a VM against Windows Defender, Avast and AVG.
 
