@@ -8,15 +8,6 @@ Support for the builder has been officially dropped.
 
 Join the Discord server for discussion and enquiries: https://discord.gg/RU5RjSe8WN.
 
-## Detection status
-Virustotal result:
-![image](https://media.discordapp.net/attachments/961905736139554876/972065831083200512/unknown.png)
-[Link](https://www.virustotal.com/gui/file/de8d1c39d6289ab2c345f82f75c4c1c7dcb5f2e202d5a8100ac97bb921559035/detection)
-
-Also tested on a VM against Windows Defender, Avast and AVG.
-
-None of the above guarantee that it is fully undetectable.
-
 ## Features
 - Persistence
 - UAC bypass
