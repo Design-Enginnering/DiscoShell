@@ -11,7 +11,6 @@ Join the Discord server for discussion and enquiries: https://discord.gg/RU5RjSe
 ## Features
 - Persistence
 - UAC bypass
-- Fileless
 
 \+ Can perform all things described in the [Discord bot commands](#discord-bot-commands) section.
 
