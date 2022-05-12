@@ -61,11 +61,12 @@ namespace dropper {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static string payload_data {
+        internal static byte[] payload {
             get {
-                return ResourceManager.GetString("payload_data", resourceCulture);
+                object obj = ResourceManager.GetObject("payload", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }
