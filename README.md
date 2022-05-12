@@ -8,13 +8,7 @@ Support for the builder has been officially dropped.
 
 Join the Discord server for discussion and enquiries: https://discord.gg/RU5RjSe8WN.
 
-## Features
-- Persistence
-- UAC bypass
-
-\+ Can perform all things described in the [Discord bot commands](#discord-bot-commands) section.
-
-## Discord bot commands
+## Command list
 The following commands are used to control infected machines.
 ```
 get : Get username, machine name, IP address and IP location of all infected machines.
