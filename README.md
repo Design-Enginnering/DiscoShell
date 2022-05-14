@@ -1,8 +1,6 @@
 # DiscoShell
 
-DiscoShell (a.k.a. DiscoSh) is a minimal remote access trojan that is controlled via a Discord bot, allowing the creation of a Discord-based botnet.
-
-Support for the builder has been officially dropped.
+DiscoShell is a minimal remote access trojan that is controlled via a Discord bot, allowing the creation of a Discord-based botnet.
 
 ![image](https://media.discordapp.net/attachments/961905736139554876/971733014654644254/unknown.png)
 
