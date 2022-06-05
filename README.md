@@ -4,7 +4,7 @@ DiscoShell is a minimal remote access trojan that is controlled via a Discord bo
 
 ![image](https://media.discordapp.net/attachments/961905736139554876/971733014654644254/unknown.png)
 
-Join the Discord server for discussion and enquiries: https://discord.gg/RU5RjSe8WN.
+Join the Discord server for discussion and enquiries: https://discord.gg/Qzyq3Dqn82.
 
 ## Command list
 The following commands are used to control infected machines.
