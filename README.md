@@ -9,26 +9,27 @@ Join the Discord server for discussion and enquiries: https://discord.gg/Qzyq3Dq
 ## Command list
 The following commands are used to control infected machines.
 ```
-get : Get username, machine name, IP address and IP location of all infected machines.
-getsc : Get screenshot of specified machine.
-getcam : Get snapshot from all video sources on specified machine.
-getfile {file_path} : Upload file located in {file_path} on specified machine to Discord.
-getav : Get all antivirus products installed on specified machine.
-getlogins : Get saved Chromium-based browser passwords on specified machine.
-getcookies : Get saved Chromium-based browser cookies on specified machine.
+get : Get username, machine name, IP address and IP location.
+getsc : Get screenshot.
+getcam : Get snapshot from all video sources.
+getfile {file_path} : Upload file located in {file_path} to Discord.
+setfile {file_path} : Download attached file to {file_path}.
+getav : Get all antivirus products installed.
+getlogins : Get saved Chromium-based browser passwords.
+getcookies : Get saved Chromium-based browser cookies.
 
-shell : Start remote command prompt session on specified machine.
-powershell : Start remote PowerShell session on specified machine (automatically bypasses AMSI).
-execute {command} : Execute command on specified machine.
+shell : Start remote command prompt session.
+powershell : Start remote PowerShell session (automatically bypasses AMSI).
+execute {command} : Execute command.
 
-startkeylogger : Start keylogger on specified machine.
-stopkeylogger : Stop keylogger on specified machine.
-getkeylog : Get logged keys on specified machine.
+startkeylogger : Start keylogger.
+stopkeylogger : Stop keylogger.
+getkeylog : Get logged keys.
 
 startddos {website_url} : Make all infected machines send GET requests to specified URL.
 stopddos : Make all infected machines stop sending GET requests.
 
-uninfect : Uninfect specified machine.
+uninfect : Uninfect.
 ```
 
 ## How to build
