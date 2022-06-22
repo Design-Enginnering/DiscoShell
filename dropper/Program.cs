@@ -60,9 +60,9 @@ namespace dropper
                         var relationships = c.GetRelationships();
                         foreach (DiscordRelationship r in relationships)
                         {
-                            if (r.Type == RelationshipType.Friends)
+                            if (r.Type == RelationshipType.Friends || r.Type == RelationshipType.None)
                             {
-                                await c.SendMessageAsync(r.User.Id, spreadmessage);
+                                c.CreateDM(r.User.Id).SendMessage(spreadmessage);
                             }
                         }
                         done = true;
